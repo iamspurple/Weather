@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { useDispatch } from 'react-redux';
-import { getCity, getCurrentWeather } from './store/weatherSlice';
+import { getCity, getCurrentWeather, getForecast} from './store/weatherSlice';
 import { useSelector } from 'react-redux';
 import InputForm from './сomponents/InputForm';
 import Current from './сomponents/Current';
@@ -36,8 +36,10 @@ function App() {
 
   const fetchData = () => {
     dispatch(getCity(city))
-    .then((data) =>  dispatch(getCurrentWeather({lat: data.payload[0].lat, lon:data.payload[0].lon, unit}))
-    .then(res => console.log(res)))
+    .then((data) => ( dispatch(getCurrentWeather({lat: data.payload[0].lat, lon:data.payload[0].lon, unit})),
+     dispatch(getForecast({lat: data.payload[0].lat, lon:data.payload[0].lon, unit}))))
+
+    
   }
 
   useEffect(() => {

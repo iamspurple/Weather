@@ -8,6 +8,7 @@ import { BsSunrise as Sunrise } from "react-icons/bs";
 import { BsSunset  as Sunset} from "react-icons/bs";
 import { BsArrowDown as MinTemp } from "react-icons/bs";
 import { BsArrowUp as MaxTemp } from "react-icons/bs";
+import { weatherIcons } from "../config";
 
 
 const Current = ({ unit,toggleUnit}) => {
@@ -16,15 +17,7 @@ const Current = ({ unit,toggleUnit}) => {
 
   const cityData = useSelector(state => state.weather.cityData)
 
- const weatherIcons = {
-   Clouds: '../../public/icons/clouds.png',
-   Snow:'../../public/icons/snow.png',
-   Drizzle:'../../public/icons/clouds.png',
-   Rain: '../../public/icons/rain.png',
-   Thunderstorm: '../../public/icons/thunderstorm.png',
-   Clear: '../../public/icons/sun.png',
-   Fog: '../../public/icons/fog.png'
- }
+
 
  const sunTime = (num) => {
     let date = new Date(num * 1000)
@@ -32,8 +25,6 @@ const Current = ({ unit,toggleUnit}) => {
     let minutes = date.getMinutes()
     return (`${hours.substring(hours.length - 2)}:${minutes}`)
  }
-
-
 
 
   return (
@@ -48,7 +39,10 @@ const Current = ({ unit,toggleUnit}) => {
       </div>
     <div className='current-weather-body'>
       <div className="current-weather-main">
-        {currentWeatherData && <img className="current-weather-image" src={weatherIcons[currentWeatherData.weather[0].main]}/>}
+        {currentWeatherData &&
+         <img className="current-weather-image"
+            src={weatherIcons[currentWeatherData.weather[0].main]}
+            alt={currentWeatherData.weather[0].main}/>}
         <div className="current-weather-temp">
           <BsThermometer className='weather-icon' size={30}/>
           {Math.round(currentWeatherData?.main.temp)}&deg;
@@ -65,7 +59,7 @@ const Current = ({ unit,toggleUnit}) => {
           <WiHumidity  className='weather-icon'size={30}/> Humidity {currentWeatherData?.main.humidity}%
         </li>
         <li className="current-weather-item">
-          <BiWind className='weather-icon' size={30}/> Wind {Math.currentWeatherData?.wind.speed}{unit==='metric'? 'm/s' : 'm/h'}
+          <BiWind className='weather-icon' size={30}/> Wind {currentWeatherData?.wind.speed.toFixed(1)}{unit==='metric'? 'm/s' : 'm/h'}
         </li>
         <li className="current-weather-item">
           {currentWeatherData && <>

@@ -3,7 +3,7 @@
 
 const InputForm = ({handleSearch, city, setCity, loading}) => {
   return (
-    <form className="search-city-form" onSubmit={handleSearch}>
+    <form  autoComplete='off'className="search-city-form" onSubmit={handleSearch}>
       <label>
         <input
             onChange={(e) => setCity(e.target.value)} 

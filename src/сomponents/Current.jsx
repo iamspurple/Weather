@@ -22,8 +22,8 @@ const Current = ({ unit,toggleUnit}) => {
  const sunTime = (num) => {
     let date = new Date(num * 1000)
     let hours = `0${date.getHours()}`;
-    let minutes = date.getMinutes()
-    return (`${hours.substring(hours.length - 2)}:${minutes}`)
+    let minutes = `0${date.getMinutes()}`
+    return (`${hours.substring(hours.length - 2)}:${minutes.substring(minutes.length - 2)}`)
  }
 
 
@@ -44,7 +44,7 @@ const Current = ({ unit,toggleUnit}) => {
             src={weatherIcons[currentWeatherData.weather[0].main]}
             alt={currentWeatherData.weather[0].main}/>}
         <div className="current-weather-temp">
-          <BsThermometer className='weather-icon' size={30}/>
+          <BsThermometer className='weather-icon' size={35}/>
           {Math.round(currentWeatherData?.main.temp)}&deg;
         </div>
       </div>

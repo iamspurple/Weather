@@ -24,10 +24,11 @@ const Forecast = () => {
 
     return (
         <div className="forecast">
+            <h2 className="forecast-header">5 day forecast</h2>
             <ul className="forecast-list">
                 {fiveDays.map((item) => {
                     const options = {
-                        weekday: 'long',
+                        weekday: 'short',
                         day: 'numeric',
                         month: 'short'
                     }
@@ -36,8 +37,10 @@ const Forecast = () => {
                     return(
                         <li className="forecast-item" key={item.dt}>
                          {date}
-                         <img  className='forecast-image' src={weatherIcons[item.weather[0].main]} alt={item.weather[0].main} />
-                         {item.main.temp}&deg;
+                         <div className="forecast-item-info">
+                            <img  className='forecast-image' src={weatherIcons[item.weather[0].main]} alt={item.weather[0].main} />
+                            {Math.round(item.main.temp)}&deg;
+                         </div>
                         </li>
                     )
                 })}

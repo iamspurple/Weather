@@ -1,2 +1,2 @@
-# Weather Forecast App using OpenWeatherMap API 
+# Weather Forecast App made by using OpenWeatherMap API 
 

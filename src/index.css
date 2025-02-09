@@ -13,9 +13,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html{
+  height: 100%;
+}
+
 body{
   background: linear-gradient(#47BFDF, 60%, #4A91FF);
-  height: 100vh;
+  min-height: 100%;
   
 }
 

@@ -11,10 +11,16 @@ export const getCity = createAsyncThunk(
       );
 
       if (!response.ok) {
-        throw new Error("Wrong city data!");
+        throw new Error("Something went wrong, please try again!");
       }
 
-      return await response.json();
+      const json = await response.json();
+
+      if (!json || json?.length === 0) {
+        throw new Error(`Data for ${city} is not found!`);
+      }
+
+      return json;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -71,12 +77,14 @@ const weatherSlice = createSlice({
       state.cityLoading = true;
     });
     builder.addCase(getCity.fulfilled, (state, action) => {
-      (state.cityLoading = false), (state.cityData = action.payload);
+      (state.cityLoading = false),
+        (state.cityData = action.payload),
+        (state.cityError = null);
     });
-    builder.addCase(getCity.rejected, (state) => {
+    builder.addCase(getCity.rejected, (state, action) => {
       (state.cityData = null),
         (state.cityLoading = false),
-        (state.cityError = true);
+        (state.cityError = action.payload);
     });
     // getForeCast
     builder.addCase(getForecast.pending, (state) => {

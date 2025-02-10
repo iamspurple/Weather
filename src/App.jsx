@@ -10,7 +10,7 @@ import Forecast from "./сomponents/Forecast";
 import ErrorMessage from "./сomponents/ErrorMessage";
 
 function App() {
-  const { cityData, cityLoading, forecastLoading } = useSelector(
+  const { cityData, cityLoading, forecastLoading, cityError } = useSelector(
     (state) => state.weather
   );
 
@@ -34,27 +34,28 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const fetchData = () => {
-    dispatch(getCity(city)).then((data) => {
-      if (data.payload.length == 0) {
-        return;
-      } else {
-        dispatch(
-          getCurrentWeather({
-            lat: data.payload[0].lat,
-            lon: data.payload[0].lon,
-            unit,
-          })
-        ),
-          dispatch(
-            getForecast({
-              lat: data.payload[0].lat,
-              lon: data.payload[0].lon,
-              unit,
-            })
-          );
-      }
-    });
+  const fetchData = async () => {
+    const data = await dispatch(getCity(city)).unwrap();
+
+    if (!data || data?.length === 0) return;
+
+    const [{ lat, lon }] = data;
+
+    dispatch(
+      getCurrentWeather({
+        lat,
+        lon,
+        unit,
+      })
+    );
+
+    dispatch(
+      getForecast({
+        lat,
+        lon,
+        unit,
+      })
+    );
   };
 
   useEffect(() => {
@@ -76,16 +77,21 @@ function App() {
         setCity={setCity}
       />
       <div className="container">
-        {loading ? (
-          <StageSpinner />
-        ) : (
-          cityData?.length > 0 && (
-            <>
-              <Current unit={unit} toggleUnit={toggleUnit} /> <Forecast />{" "}
-            </>
-          )
+        {loading === true && <StageSpinner />}
+
+        {loading === false && cityData?.length > 0 && (
+          <>
+            <Current unit={unit} toggleUnit={toggleUnit} />
+            <Forecast />{" "}
+          </>
         )}
-        {!loading && cityData?.length == 0 && <ErrorMessage />}
+
+        {loading === false && cityError !== null && (
+          <ErrorMessage text={cityError} />
+        )}
+        {loading === false && cityData?.length == 0 && (
+          <ErrorMessage text={"No data found"} />
+        )}
       </div>
     </>
   );

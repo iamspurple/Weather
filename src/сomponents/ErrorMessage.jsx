@@ -1,14 +1,14 @@
-import { GoAlertFill } from "react-icons/go"
+import { GoAlertFill } from "react-icons/go";
 
-const ErrorMessage = () => {
+const ErrorMessage = ({ text }) => {
   return (
     <div className="error">
       <div className="error-message">
-        <GoAlertFill className="error-icon" size={40} color="red"/>
-        <span>Something went wrong, please try again!</span>
+        <GoAlertFill className="error-icon" size={40} color="red" />
+        <span>{text}</span>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ErrorMessage
+export default ErrorMessage;

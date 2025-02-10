@@ -13,6 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+<<<<<<< HEAD
 html {
   height: 100%;
 }
@@ -20,6 +21,16 @@ html {
 body {
   background: linear-gradient(#47bfdf, 60%, #4a91ff);
   min-height: 100%;
+=======
+html{
+  height: 100%;
+}
+
+body{
+  background: linear-gradient(#47BFDF, 60%, #4A91FF);
+  min-height: 100%;
+  
+>>>>>>> 4b05f150cdadd7ad98ad197ce6826e018bf47e0a
 }
 
 a {

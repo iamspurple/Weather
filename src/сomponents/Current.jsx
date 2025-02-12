@@ -26,8 +26,6 @@ const Current = ({ unit, toggleUnit, getLocation }) => {
     )}`;
   };
 
-  console.log(currentWeatherData);
-
   return (
     <div className="current-weather">
       <div className="current-weather-header">

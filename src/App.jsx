@@ -63,7 +63,7 @@ function App() {
         };
 
         const { lat, lon } = userLocation;
-        console.log(lat, lon);
+
         getData(lat, lon, unit);
       };
       navigator.geolocation.getCurrentPosition(success);
@@ -71,10 +71,8 @@ function App() {
       const data = await dispatch(getCity(city)).unwrap();
 
       if (!data || data?.length === 0) return;
-      console.log(data);
 
       const [{ lat, lon }] = data;
-      console.log(lat, lon);
 
       getData(lat, lon, unit);
     }

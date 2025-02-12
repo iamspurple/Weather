@@ -10,6 +10,8 @@ import Forecast from "./сomponents/Forecast";
 import ErrorMessage from "./сomponents/ErrorMessage";
 
 function App() {
+  const [getLocation, setGetLocation] = useState(false);
+
   const { cityData, cityLoading, forecastLoading, cityError } = useSelector(
     (state) => state.weather
   );
@@ -35,35 +37,56 @@ function App() {
   const dispatch = useDispatch();
 
   const fetchData = async () => {
-    const data = await dispatch(getCity(city)).unwrap();
+    const getData = (lat, lon, unit) => {
+      dispatch(
+        getCurrentWeather({
+          lat,
+          lon,
+          unit,
+        })
+      );
 
-    if (!data || data?.length === 0) return;
+      dispatch(
+        getForecast({
+          lat,
+          lon,
+          unit,
+        })
+      );
+    };
 
-    const [{ lat, lon }] = data;
+    if (getLocation) {
+      const success = (pos) => {
+        const userLocation = {
+          lat: pos.coords.latitude,
+          lon: pos.coords.longitude,
+        };
 
-    dispatch(
-      getCurrentWeather({
-        lat,
-        lon,
-        unit,
-      })
-    );
+        const { lat, lon } = userLocation;
+        console.log(lat, lon);
+        getData(lat, lon, unit);
+      };
+      navigator.geolocation.getCurrentPosition(success);
+    } else {
+      const data = await dispatch(getCity(city)).unwrap();
 
-    dispatch(
-      getForecast({
-        lat,
-        lon,
-        unit,
-      })
-    );
+      if (!data || data?.length === 0) return;
+      console.log(data);
+
+      const [{ lat, lon }] = data;
+      console.log(lat, lon);
+
+      getData(lat, lon, unit);
+    }
   };
 
   useEffect(() => {
     fetchData();
-  }, [unit]);
+  }, [unit, getLocation]);
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setGetLocation(false);
     setLoading(true);
     fetchData();
   };
@@ -75,13 +98,18 @@ function App() {
         loading={loading}
         city={city}
         setCity={setCity}
+        setGetLocation={setGetLocation}
       />
       <div className="container">
         {loading === true && <StageSpinner />}
 
         {loading === false && cityData?.length > 0 && (
           <>
-            <Current unit={unit} toggleUnit={toggleUnit} />
+            <Current
+              getLocation={getLocation}
+              unit={unit}
+              toggleUnit={toggleUnit}
+            />
             <Forecast />{" "}
           </>
         )}

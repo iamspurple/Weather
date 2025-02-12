@@ -10,7 +10,7 @@ import { BsArrowDown as MinTemp } from "react-icons/bs";
 import { BsArrowUp as MaxTemp } from "react-icons/bs";
 import { weatherIcons } from "../config";
 
-const Current = ({ unit, toggleUnit }) => {
+const Current = ({ unit, toggleUnit, getLocation }) => {
   const currentWeatherData = useSelector(
     (state) => state.weather.currentWeatherData
   );
@@ -26,11 +26,15 @@ const Current = ({ unit, toggleUnit }) => {
     )}`;
   };
 
+  console.log(currentWeatherData);
+
   return (
     <div className="current-weather">
       <div className="current-weather-header">
         <h2>
-          {cityData
+          {getLocation
+            ? `Current weather in ${currentWeatherData?.name}`
+            : cityData
             ? `Current weather in ${cityData[0].name}`
             : "Current weather"}
         </h2>

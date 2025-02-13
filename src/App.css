@@ -253,4 +253,24 @@
   .current-weather-item {
     justify-content: center;
   }
+
+  .current-weather-header h2,
+  .forecast-header {
+    font-size: 40px;
+  }
+
+  .search-city-form input {
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .search-city-form input {
+    width: 150px;
+  }
+
+  .current-weather-header h2,
+  .forecast-header {
+    font-size: 30px;
+  }
 }
